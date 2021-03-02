@@ -1,0 +1,203 @@
+/*
+Original source: https://www.bootstrapdash.com/product/free-bootstrap-login/
+*/
+body {
+  font-family: "Karla", sans-serif;
+  background-color: #d0d0ce;
+  min-height: 100vh; }
+
+.brand-wrapper {
+  margin-bottom: 19px; }
+  .brand-wrapper .logo {
+    height: 37px; }
+
+.login-card {
+  border: 0;
+  border-radius: 27.5px;
+  box-shadow: 0 10px 30px 0 rgba(172, 168, 168, 0.43);
+  overflow: hidden; }
+  .login-card-img {
+    border-radius: 0;
+    position: r;
+    width: 100%;
+    height: 100%;
+	/*contenido añadido*/
+	display: -webkit-flex; /* Safari */
+	-webkit-justify-content: space-around; /* Safari 6.1+ */
+	display: flex;
+	justify-content: space-around;
+	justify-content: center;
+	/*contenido eliminado
+	-o-object-fit: cover;
+       object-fit: cover;*/
+     }
+  .login-card .card-body {
+    padding: 85px 60px 60px; }
+    @media (max-width: 422px) {
+      .login-card .card-body {
+        padding: 35px 24px; } }
+  .login-card-description {
+    font-size: 25px;
+    color: #000;
+    font-weight: normal;
+    margin-bottom: 23px; }
+  .login-card form {
+    max-width: 326px; }
+  .login-card .form-control {
+    border: 1px solid #d5dae2;
+    padding: 15px 25px;
+    margin-bottom: 20px;
+    min-height: 45px;
+    font-size: 13px;
+    line-height: 15;
+    font-weight: normal; }
+    .login-card .form-control::-webkit-input-placeholder {
+      color: #919aa3; }
+    .login-card .form-control::-moz-placeholder {
+      color: #919aa3; }
+    .login-card .form-control:-ms-input-placeholder {
+      color: #919aa3; }
+    .login-card .form-control::-ms-input-placeholder {
+      color: #919aa3; }
+    .login-card .form-control::placeholder {
+      color: #919aa3; }
+  .login-card .login-btn {
+    padding: 13px 20px 12px;
+    background-color: #083c64;  /*#000;*/
+    border-radius: 4px;
+    font-size: 17px;
+    font-weight: bold;
+    line-height: 20px;
+    color: #fff;
+    margin-bottom: 24px; }
+    .login-card .login-btn:hover {
+      border: 1px solid #000;
+      background-color: #0d4d66;
+      color: #000; }
+  .login-card .forgot-password-link {
+    font-size: 14px;
+    color: #919aa3;
+    margin-bottom: 12px; }
+  .login-card-footer-text {
+    font-size: 16px;
+    color: #0d2366;
+    margin-bottom: 60px; }
+    @media (max-width: 767px) {
+      .login-card-footer-text {
+        margin-bottom: 24px; } }
+  .login-card-footer-nav a {
+    font-size: 14px;
+    color: #919aa3; }
+
+/*# sourceMappingURL=login.css.map */
+
+.link{
+	color: #52a3a8;
+}
+
+/*
+	URL pagina: https://colorlib.com/
+	Free template: https://colorlib.com/etc/lf/Login_v1/index.html
+	Link css: https://colorlib.com/etc/lf/Login_v1/css/main.css
+*/
+
+.wrap-input100 {
+	position:relative;width:100%;
+	z-index:1;
+	margin-bottom:10px;
+}
+
+.validate-input{
+	position:relative;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+.input100 {
+	/*font-family:Poppins-Medium;
+	font-size:15px;
+	line-height:1.5;
+	color:#666;
+	display:block;*/
+	width:100%;
+	/*background:#e6e6e6;*/
+	height:50px;
+	/*border-radius:25px;*/
+  padding:0 30px 0 68px;
+}
+
+.focus-input100 {
+	display:block;
+	position:absolute;
+	border-radius:25px;
+	bottom:0;
+	left:0;
+	z-index:-1;
+	width:100%;
+	height:100%;
+	box-shadow:0 0;
+	color:#083c64;
+}
+	
+.input100:focus+.focus-input100 {
+	-webkit-animation:anim-shadow .5s ease-in-out forwards;
+	animation:anim-shadow .5s ease-in-out forwards}
+	
+	@-webkit-keyframes anim-shadow {
+		to {
+			box-shadow:0 0 70px 25px;opacity:0
+			}
+		}
+	@keyframes anim-shadow {
+		to {
+			box-shadow:0 0 70px 25px;
+			opacity:0
+			}
+		}
+		
+.symbol-input100 {
+	font-size:15px;
+	display:-webkit-box;
+	display:-webkit-flex;
+	display:-moz-box;
+	display:-ms-flexbox;
+	display:flex;
+	align-items:center;
+	position:absolute;
+	border-radius:25px;
+	bottom:0;
+	left:0;
+	width:100%;
+	height:100%;
+	padding-left:35px;
+	pointer-events:none;
+	color:#52a3a8;
+	-webkit-transition:all .4s;
+	-o-transition:all .4s;
+	-moz-transition:all .4s;
+	transition:all .4s
+}
+
+.input100:focus+.focus-input100+.symbol-input100 {
+	color:#083c64;
+	padding-left:28px
+}
+
+.btn:hover {
+  color: #fff !important;
+  text-decoration: none;
+}
+
+.adaslab_btn {
+  background-color: #083c64;
+  color: #fff;
+}

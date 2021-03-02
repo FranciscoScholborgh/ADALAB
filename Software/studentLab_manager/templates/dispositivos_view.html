@@ -1,0 +1,67 @@
+<div id="device_modal" class="modal fade" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 id="msg_devtitle" class="modal-title"></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="color: #083c64;">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="ml-3 mr-3 mt-3">
+                <form action="/ADASLAB/" method="post">
+                    {% csrf_token %}
+                    <div class="wrap-input100 validate-input mx-auto" style="padding-down: 5px;" >
+                        <input class="form-control input100" style="padding:0 30px 0 68px;" id="dev_name" name="dev_name" type="text" placeholder="Nombre del dispositivo" required>
+                        <span class="symbol-input100">
+                            <i class="fas fa-user" aria-hidden="true"></i>
+                        </span>
+                    </div>
+                    <input id="olddev" name="olddev" class="d-none" style="padding:0 30px 0 68px;" type="hidden">
+                    <input id="adddev" class="d-none" style="padding:0 30px 0 68px;" type="hidden">
+                    <input id="confirmdev_btn" class="btn btn-block login-btn mb-4 adaslab_btn" type="submit">
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="card card-profile">
+    <div class="card-header card-header-adasfirst">
+        <h4 class="card-title"><b>Dispositivos de medición</b></h4>
+    </div>
+    <div class="card-body">
+        <div class="d-flex flex-row-reverse">
+            <button class="btn btn-secondary rounded" title="Agregar curso" onclick="addDevice_panel()"><i class="fa fa-plus-circle fa-lg" aria-hidden="true"></i></button>
+        </div>
+        <div class="table-responsive">
+            <table class="table">
+                <thead class="text-adassec">
+                    <th>
+                        <h4><b>Nombre</b></h4>
+                    </th>
+                    <th>
+                        <h4><b>Estado</b></h4>
+                    </th>
+                    <th>
+                        <h4><b>Acciones</b></h4>
+                    </th>
+                </thead>
+                <tbody>
+                    {% for device in devices %}
+                        <tr>
+                            <td>
+                                {{device.name}}
+                            </td>
+                            <td>
+                                {{device.estado}}
+                            </td>
+                            <td>
+                                <button class="btn btn-secondary rounded" title="Editar información" onclick="editDevice_panel('{{device.name}}')"><i class="fa fa-edit" aria-hidden="true"></i></button>
+                                <button class="btn btn-secondary rounded" title="Eliminar dispositivo" onclick="show_modalconfirm({'value':'{{device.name}}', 'name': '{{device.name}}'}, 'dispositivo')"><i class="fa fa-trash" aria-hidden="true"></i></button>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>{{laboratorio.practica.nombre}}</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        {% load static %}
+        <link rel="icon" type="image/ico" href="/static/images/adaslab.ico" sizes="32x32">
+        <link href="{% static 'css/bootstrap.old.css' %}" rel="stylesheet" />
+        <link href="{% static 'css/practicas_style.css' %}" rel="stylesheet" />
+        <link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}">
+    </head>
+    <body>
+        <div id="loadingBar" class="modal fade" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-hidden="true" style="padding-top:15%; overflow-y:visible;"> 
+            <div class="modal-dialog modal-m"> 
+                <div class="modal-content"> 
+                    <div class="modal-header">
+                        <h3 style="margin:0;">Generando preinforme</h3>
+                    </div> 
+                    <div class="modal-body"> 
+                        <div class="progress progress-striped active" style="margin-bottom:0;">
+                            <div class="progress-bar progress-bar-striped progress-bar-animated" style="width: 100%">
+                            </div>
+                        </div> 
+                    </div> 
+                </div>
+            </div>
+        </div>
+        <div id="warn_modal" class="modal fade" tabindex="-1">
+            <div class="modal-dialog modal-dialog-centered">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 id="modal_title" style="color: #083c64;"></h5>
+                </div>
+                <div class="modal-body">
+                    <b><h4 id="modal_content"></h4></b>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn adaslab_btn" data-dismiss="modal"><b>Cerrar</b></button>                        
+                </div>
+              </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row">
+                <section>
+                    <div class="wizard">
+                        <div class="wizard-inner">
+                            <div class="connecting-line"></div>
+                                <ul class="nav nav-tabs" role="tablist">
+                                    <li role="presentation" class="active">
+                                        <a href="#practica" data-toggle="tab" aria-controls="practica" role="tab" title="Practica">
+                                            <span class="round-tab">
+                                                <i class="fas fa-clipboard-list"></i>
+                                            </span>
+                                        </a>
+                                    </li>
+                                    {% for desarrollo in procedimientos %}
+                                        <li role="presentation" class="disabled">
+                                            <a href="#proc{{desarrollo.paso}}" data-toggle="tab" aria-controls="proc{{desarrollo.paso}}" role="tab" title="medir {{desarrollo.procedimiento.medida}}">
+                                                <span class="round-tab">
+                                                    <i class="fas fa-flask"></i>
+                                                </span>
+                                            </a>
+                                        </li>
+                                    {% endfor %}
+                                    <li role="presentation" class="disabled">
+                                        <a href="#preg" data-toggle="tab" aria-controls="preg" role="tab" title="Preguntas">
+                                            <span class="round-tab">
+                                                <i class="fas fa-file-signature"></i>
+                                            </span>
+                                        </a>
+                                    </li>
+                                    <li role="presentation" class="disabled">
+                                        <a href="#preinforme" data-toggle="tab" aria-controls="complete" role="tab" title="Generar Preinforme">
+                                            <span class="round-tab">
+                                                <i class="fas fa-file-alt"></i>
+                                            </span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <form role="form">
+                                <div class="tab-content margins">
+                                    <div class="tab-pane active" role="tabpanel" id="practica">
+                                        <b><h3 id="pralab_name" style="color: #083c64;"></h3></b>
+                                        <br>
+                                        <b><h4 style="color: #2196f3;">Objetivos</h4></b>
+                                        <pre id="pralab_objs" style='font-size: 15px;  font-family: "Roboto", "Helvetica", "Arial", sans-serif;'></pre>
+                                        <b><h4 style="color: #2196f3;">Materiales</h4></b>
+                                        <pre id="pralab_mates"style='font-size: 15px;  font-family: "Roboto", "Helvetica", "Arial", sans-serif;'></pre>
+                                        <b><h4 style="color: #2196f3;">Procedimientos</h4></b>
+                                        <pre id="pralab_procs" style='font-size: 15px;  font-family: "Roboto", "Helvetica", "Arial", sans-serif;'></pre>
+                                        <ul class="list-inline pull-right">
+                                            <li>
+                                                <button type="button" class="btn btn-primary next-step">Siguiente</button>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    {% for desarrollo in procedimientos %}
+                                        <div class="tab-pane" role="tabpanel" id="proc{{desarrollo.paso}}">
+                                            <b><h3 class="text-center" style="color: #083c64;">Procedimiento {{desarrollo.paso}}</h3></b>
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <p class="text-center">Procedimiento</p>
+                                                    <pre>{{desarrollo.procedimiento.descripcion}}</pre>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <p class="text-center">Medida</p>
+                                                    <pre>{{desarrollo.procedimiento.medida}}</pre>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <p class="text-center">Duración</p>
+                                                    <pre>{{desarrollo.procedimiento.tiempo}}</pre>
+                                                </div>
+                                            </div>
+                                            <canvas id="graph-P{{desarrollo.paso}}"></canvas>
+                                            {% if desarrollo.procedimiento.medida is not None %}
+                                                <button id="btn-P{{desarrollo.paso}}" type="button" class="btn btn-primary" onclick="start_messurement('graph-P{{desarrollo.paso}}', '{{device}}', '{{desarrollo.procedimiento.tiempo}}')">Empezar medición</button>
+                                            {% endif %}
+                                            <br>
+                                            <ul class="list-inline pull-right">
+                                                <li>
+                                                    <button id="prev-P{{desarrollo.paso}}" type="button" class="btn btn-default prev-step">Anterior</button>
+                                                </li>
+                                                <li>
+                                                    <button id="nextto-P{{desarrollo.paso}}" type="button" class="btn btn-primary next-step {% if desarrollo.procedimiento.medida is not None %} hide_element {% endif %}">Siguiente</button>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    {% endfor %}
+                                    <div class="tab-pane" role="tabpanel" id="preg">
+                                        {% for pregunta in preguntas %}
+                                            <b><h4 style="color: #083c64;">{{pregunta.text}}</h4></b>
+                                            <textarea id="preg{{pregunta.id}}" name="preg{{pregunta.id}}" class="textarea_fix"></textarea>
+                                        {% endfor %}
+                                        <ul class="list-inline pull-right">
+                                            <li>
+                                                <button type="button" class="btn btn-default prev-step">Anterior</button>
+                                                <button type="button" class="btn btn-primary next-stepQuestions">Siguiente</button>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="tab-pane" role="tabpanel" id="preinforme">
+                                        <b><h3 style="color: #083c64;">Práctica finalizada</h3></b> 
+                                        <br>
+                                        <b><h4>
+                                            La práctica de laboratorio ha finalizado. A partir de ahora podra generar y descargar el preinforme de laboratorio, 
+                                            hacer el envio del mismo a los correos de los integrantes del grupo, o enviarlo directamente al docente asignado al curso.
+                                        </h4></b>
+                                        <ul class="list-inline pull-right hidden-xs">
+                                            <li>
+                                                <button type="button" class="btn btn-default prev-step">Anterior</button>
+                                                <button type="button" class="btn btn-primary" onclick="generar_preinforme(parseInt('{{id_lab}}'), 'estudiante')">Enviar al correo</button>
+                                                <button type="button" class="btn btn-primary" onclick="generar_preinforme(parseInt('{{id_lab}}'), 'docente')">Enviar al docente</button>
+                                                <button type="button" class="btn btn-primary" onclick="generar_preinforme(parseInt('{{id_lab}}'), 'local_info')">Generar preinforme</button>
+                                            </li>
+                                        </ul>
+                                        <div class="container-fluid row visible-xs">
+                                            <div class="col-xs-5" style="position:relative; left:-15px;">
+                                                <button type="button" style="margin-bottom:10px;width:150px;" class="btn btn-default prev-step">Anterior</button>
+                                                <button type="button" style="width:150px"class="btn btn-primary" onclick="generar_preinforme(parseInt('{{id_lab}}'), 'estudiante')">Enviar al correo</button>
+                                            </div>
+                                            <div class="col-xs-2">
+                                            </div>
+                                            <div class="col-xs-5" style="position:relative; left:-30px;">
+                                                <button type="button" style="margin-bottom:10px;width:150px" class="btn btn-primary" onclick="generar_preinforme(parseInt('{{id_lab}}'), 'local_info')">Generar preinforme</button>
+                                                <button type="button" style="width:150px" class="btn btn-primary" onclick="generar_preinforme(parseInt('{{id_lab}}'), 'docente')">Enviar al docente</button>   
+                                           </div>
+                                        </div>
+                                    </div>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </form>
+                        </div>
+                </section>
+            </div>
+        </div>
+        <script src="{% static 'js/core/jquery.min.js' %}"></script>
+        <script src="{% static 'js/core/popper.min.js' %}"></script>
+        <script src="{% static 'js/core/bootstrap.old.js' %}"></script>
+        <script src="{% static 'js/utils.js' %}"></script>
+        <script src="{% static 'js/index.js' %}"></script>
+        <script src="{% static 'js/core/Chart.min.js' %}"></script>
+        <script src="{% static 'js/lab/laboratory_sbccomm.js' %}"></script>
+        <script src="{% static 'js/lab/laboratory_graphs.js' %}"></script>
+        <script src="{% static 'js/plugins/tabnav.js' %}"></script>
+        <script>viewlab_info({'name': '{{laboratorio.practica.nombre}}', 'objs':  '{{laboratorio.practica.objetivos}}', 'mates': '{{laboratorio.practica.materiales}}', 'procs': '{{laboratorio.practica.procedimientos}}'})</script>
+            {% for desarrollo in procedimientos %}
+                {% if desarrollo.procedimiento.medida is not None %}
+                    <script>
+                        /*var xAxes = [{
+                            display: true,
+                            scaleLabel: {
+                                display: true,
+                                labelString: 'Segundos'
+                            }
+                        }]
+                        var yAxes = [{
+                            display: true,
+                            scaleLabel: {
+                                display: true,
+                                labelString: '{{desarrollo.procedimiento.unidad}}'
+                            }
+                        }]*/
+                        create_graph('graph-P{{desarrollo.paso}}', '{{laboratorio.practica.nombre}}', 'line', [], 'segundos', '{{desarrollo.procedimiento.medida}}');
+                        add_dataset('graph-P{{desarrollo.paso}}', '{{desarrollo.procedimiento.medida}}');
+                    </script>
+                {% endif %}
+            {% endfor %}
+    </body>
+</html>

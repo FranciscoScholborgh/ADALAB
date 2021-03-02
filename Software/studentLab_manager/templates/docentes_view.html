@@ -1,0 +1,85 @@
+<div id="docente_modal" class="modal fade" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 id="msg_doctitle" class="modal-title"></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="color: #083c64;">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="ml-3 mr-3 mt-3">
+                <form action="/ADASLAB/" method="post">
+                    {% csrf_token %}
+                    <div class="wrap-input100 validate-input" style="padding-down: 5px;">
+                        <input class="form-control input100" style="padding:0 30px 0 68px;" id="doc_code" name="code" type="number" onkeypress="validate_numinput(event)" placeholder="Código" value="{{docform_values.code}}" required>
+                        <span class="symbol-input100">
+                            <i class="fas fa-id-card-alt" aria-hidden="true"></i>
+                        </span>
+                    </div>
+                    <div class="wrap-input100 validate-input mx-auto" style="padding-down: 5px;" >
+                        <input class="form-control input100" style="padding:0 30px 0 68px;" id="doc_name" name="name" type="text" placeholder="Nombre completo" value="{{docform_values.name}}" required>
+                        <span class="symbol-input100">
+                            <i class="fas fa-user" aria-hidden="true"></i>
+                        </span>
+                    </div>
+                    <div class="wrap-input100 validate-input" style="padding-down: 5px;" >
+                        <input class="form-control input100" style="padding:0 30px 0 68px;" id="doc_email" name="email" type="email" placeholder="Correo electronico" value="{{docform_values.email}}" required>
+                        <span class="symbol-input100">
+                            <i class="fas fa-envelope" aria-hidden="true"></i>
+                        </span>
+                    </div>
+                    <input id="olddoc" name="olddoc" class="d-none" style="padding:0 30px 0 68px;" type="hidden">
+                    <input id="adddoc" class="d-none" style="padding:0 30px 0 68px;" type="hidden">
+                    <input id="confirmdoc_btn" class="btn btn-block login-btn mb-4 adaslab_btn" type="submit">
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="card card-profile">
+    <div class="card-header card-header-adasfirst">
+        <h4 class="card-title"><b>Docentes de laboratorio</b></h4>
+    </div>
+    <div class="card-body">
+        <div class="d-flex flex-row-reverse">
+            <button class="btn btn-secondary rounded" title="Agregar docente" onclick="addDocente_panel()"><i class="fa fa-plus-circle fa-lg" aria-hidden="true"></i></button>
+        </div>
+        <div class="table-responsive">
+            <table class="table">
+                <thead class="text-adassec">
+                    <th>
+                        <h4><b>Código</b></h4>
+                    </th>
+                    <th>
+                        <h4><b>Nombre</b></h4>
+                    </th>
+                    <th>
+                        <h4><b>Correo</b></h4>
+                    </th>
+                    <th>
+                        <h4><b>Acciones</b></h4>
+                    </th>
+                </thead>
+                <tbody>
+                    {% for docente in docentes %}
+                        <tr>
+                            <td>
+                                {{docente.codigo}}
+                            </td>
+                            <td>
+                                {{docente.nombre}}
+                            </td>
+                            <td>
+                                {{docente.correo}}
+                            </td>
+                            <td>
+                                <button class="btn btn-secondary rounded" title="Editar información" onclick="editDocente_panel({'code':'{{docente.codigo}}', 'name':'{{docente.nombre}}', 'email':'{{docente.correo}}'})"><i class="fa fa-edit" aria-hidden="true"></i></button>
+                                <button class="btn btn-secondary rounded" title="Eliminar docente" onclick="show_modalconfirm({'value':'{{docente.codigo}}', 'name': '{{docente.nombre}}'}, 'docente')"><i class="fa fa-trash" aria-hidden="true"></i></button>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

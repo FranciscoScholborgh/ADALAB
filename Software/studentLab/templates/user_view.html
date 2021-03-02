@@ -1,0 +1,108 @@
+<div class="row">
+    <div class="col-md-6">
+        <div class="card card-profile">
+            <div class="card-header card-header-adasfirst">
+                <h4 class="card-title"><b>Información de usuario</b></h4>
+            </div>
+            <div class="card-body">
+                <form action="/" method="post">
+                    {% csrf_token %}
+                    <p class="text-left">Código estudiantil </p>
+                    <div class="wrap-input100 validate-input" style="padding-down: 5px;">
+                        <input class="form-control input100" style="padding:0 30px 0 68px;" id="user_code" name="user_code" type="number" onkeypress="validate_numinput(event)" placeholder="Código estudiantil" value="{{ user_student.codigo }}" required>
+                        <span class="symbol-input100">
+                            <i class="fas fa-id-card-alt" aria-hidden="true"></i>
+                        </span>
+                    </div>
+                    <p class="text-left">Nombre completo</p>
+                    <div class="wrap-input100 validate-input mx-auto" style="padding-down: 5px;" >
+                        <input class="form-control input100" style="padding:0 30px 0 68px;" id="user_name" name="user_name" type="text" placeholder="Nombre completo" value='{{ user_student.nombre }}' required>
+                        <span class="symbol-input100">
+                            <i class="fas fa-user" aria-hidden="true"></i>
+                        </span>
+                    </div>
+                    <p class="text-left">Correo institucional</p>
+                    <div class="wrap-input100 validate-input" style="padding-down: 5px;" >
+                        <input class="form-control input100" style="padding:0 30px 0 68px;" id="user_email" name="user_email" type="email" placeholder="Correo institucional" value="{{ user_student.correo}}" required>
+                        <span class="symbol-input100">
+                            <i class="fas fa-envelope" aria-hidden="true"></i>
+                        </span>
+                    </div>
+                    <p class="text-left">Semestre</p>
+                    <div class="wrap-input100 validate-input" style="padding-down: 5px;" >
+                        <select class="form-control input100" style="padding:0 30px 0 68px;" id="user_semester" name="user_semester" style="max-width: 120px;" required>
+                            <option value="{{ user_student.semestre }}" selected hidden>{{user_student.semestre}} Semestre</option>
+                            <option value="1">1 Semestre</option>
+                            <option value="2">2 Semestre</option>
+                            <option value="3">3 Semestre</option>
+                            <option value="4">4 Semestre</option>
+                            <option value="5">5 Semestre</option>
+                            <option value="6">6 Semestre</option>
+                            <option value="7">7 Semestre</option>
+                            <option value="8">8 Semestre</option>
+                            <option value="9">9 Semestre</option>
+                            <option value="10">10 Semestre</option>
+                        </select>
+                        <span class="symbol-input100">
+                            <i class="fas fa-university" aria-hidden="true"></i>
+                        </span>
+                    </div>
+                    <input id="ops_useredit" class="d-none" style="padding:0 30px 0 68px;" type="text">
+                    <input class="btn btn-block login-btn mb-4 adaslab_btn" type="submit" value="Confirmar">
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card card-profile" style="padding-bottom: 5px;">
+            <div class="card-header card-header-adasfirst">
+                <h4 class="card-title"><b>Inscribirse a un curso</b></h4>
+            </div>
+            <div class="card-body">
+                <form onsubmit="return course_ops(true);" action="/" method="post">
+                    {% csrf_token %}
+                    <p class="text-left">Curso</p>
+                    <div class="wrap-input100 validate-input" style="padding-bottom: 5px;" >
+                        <select class="form-control input100" style="padding:0 30px 0 68px;" id="mt_course" name="mt_course" style="max-width: 120px;" required>
+                            {% for curso in cursos_nomt %}
+                                <option value="{{curso.codigo}}">
+                                    {{curso.nombre}}
+                                </option>
+                            {% endfor %} 
+                        </select>
+                        <span class="symbol-input100">
+                            <i class="fas fa-chalkboard-teacher" aria-hidden="true"></i>
+                        </span>
+                    </div>
+                    <input id="ops_mtcu" class="d-none" style="padding:0 30px 0 68px;" type="text">
+                    <input class="btn btn-block login-btn mb-4 adaslab_btn" type="submit" value="Inscribir">
+                </form>
+            </div>
+        </div>
+        <div class="card card-profile" style="padding-bottom: 5px;">
+            <div class="card-header card-header-adasfirst">
+                <h4 class="card-title"><b>Anular inscripción de curso</b></h4>
+            </div>
+            <div class="card-body">
+                <form onsubmit="return course_ops(false);" action="/" method="post">
+                    {% csrf_token %}
+                    <p class="text-left">Curso</p>
+                    <div class="wrap-input100 validate-input" style="padding-bottom: 5px;">
+                        <select class="form-control input100" style="padding:0 30px 0 68px;" id="ret_course" name="ret_course" style="max-width: 120px;" required>
+                            {% for grupo in grupos %}
+                                <option value="{{grupo.curso.codigo}}">
+                                    {{grupo.curso.nombre}}
+                                </option>
+                            {% endfor %} 
+                        </select>
+                        <span class="symbol-input100">
+                            <i class="fas fa-chalkboard-teacher" aria-hidden="true"></i>
+                        </span>
+                    </div>
+                    <input id="ops_remtcu" class="d-none" style="padding:0 30px 0 68px;" type="text">
+                    <input class="btn btn-block login-btn mb-4 adaslab_btn" type="submit" value="Confirmar">
+                </form>
+            </div>
+        </div>
+    </div>         
+</div>

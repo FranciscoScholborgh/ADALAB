@@ -1,0 +1,53 @@
+<div class="card card-profile">
+    <div class="card-body">
+        <h6 class="card-category text-gray">Subir formato de práctica</h6>
+        <h3 class="card-title" style="color:#0d4d66;"><b>Crear nueva práctica de laboratorio</b></h3>
+        <p class="card-description">
+            Por favor, anexe la guía de laboratorio en formato .doc o .docx
+        </p>
+        <form id="upload_pralab" action="/ADASLAB/" enctype="multipart/form-data" method="post">
+            {% csrf_token %}
+            <div class="wrap-input100 validate-input" style="padding-down: 5px;" >
+                <select class="form-control input100" style="padding:0 30px 0 68px;" id="curso_id" name="curso_id" required>
+                    {% if form_values.course is not None %}
+                        <option value="{{ form_values.course.codigo }}" selected hidden>{{form_values.course.nombre}}</option>
+                    {% else %}
+                        <option value="" disabled selected hidden>Curso</option>
+                    {% endif %}
+                    {% for curso in cursos %}
+                        <option value="{{curso.codigo}}">
+                            {{curso.nombre}}
+                        </option>
+                    {% endfor %}
+                </select>
+                <span class="focus-input100"></span>
+                <span class="symbol-input100">
+                    <i class="fas fa-chalkboard-teacher" aria-hidden="true"></i>
+                </span>
+            </div>
+            <div class="wrap-input100 validate-input" style="padding-down: 5px;" >
+                <select class="form-control input100" style="padding:0 30px 0 68px;" id="dev_id" name="dev_id" required>
+                    {% if form_values.course is not None %}
+                        <option value="{{ form_values.course.codigo }}" selected hidden>{{form_values.course.nombre}}</option>
+                    {% else %}
+                        <option value="" disabled selected hidden>Dispositivo</option>
+                    {% endif %}
+                    {% for device in devices %}
+                        <option value="{{device.name}}">
+                            {{device.name}}
+                        </option>
+                    {% endfor %}
+                </select>
+                <span class="focus-input100"></span>
+                <span class="symbol-input100">
+                    <i class="fas fa-rss"></i>
+                </span>
+            </div>
+            <div class="container-fluid">
+                <input style="padding-top: 5px;padding-bottom: 25px;" type="file" name="doc_practica" accept=".doc,.docx,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" required>
+            </div>
+            <input id="adddocpra" class="d-none" style="padding:0 30px 0 68px;" type="hidden">
+            <input class="btn btn-block login-btn mb-4 adaslab_btn" type="submit">
+        </form>
+    </div>
+</div>

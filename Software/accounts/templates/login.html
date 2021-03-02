@@ -1,0 +1,87 @@
+<!--https://freefrontend.com/bootstrap-login-forms/-->
+<!--https://www.bootstrapdash.com/product/free-bootstrap-login/-->
+<html lang="es-CO">
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+        <meta content='width=device-width, initial-scale=1.0, shrink-to-fit=no' name='viewport' />
+        <title> ADASLAB </title>
+        {% load static %}
+        {% load pwa %}
+        {% progressive_web_app_meta %}
+        <link rel="manifest" href="manifest.json">
+        <link rel="icon" type="image/ico" href="{% static 'images/adaslab.ico' %}" sizes="32x32">
+        <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet" type="text/css">
+        <link href="{% static 'css/styles.css' %}" rel="stylesheet" type="text/css">
+        <link href="{% static 'css/font-awesome.min.css' %}" rel="stylesheet" type="text/css">
+    </head>
+    <body>
+        <div id="warn_modal" class="modal fade" tabindex="-1">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">{{ msg.title}}</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="color: #083c64;">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p>{{ form.errors.user }}</p>
+                        <p>{{ form.errors.password }}</p>
+                        <p>{{ msg.content }}</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn adaslab_btn" data-dismiss="modal"><b>Cerrar</b></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <main class="d-flex align-items-center min-vh-100 py-3 py-md-0">
+            <div class="container">
+                <div class="card login-card"> 
+                    <div class="row no-gutters">
+                        <div class="col-md-6">
+                            <div class="d-none d-sm-block"> 
+                                <img src="{% static 'images/adaslab.jpg' %}" class="img-fluid" width="532" height="445" alt="ADASLAB">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card-body"> 
+                                <div class="d-block d-sm-none">
+                                    <img src="{% static 'images/adaslab.jpg' %}" class="img-fluid" width="532" height="445" alt="ADASLAB">
+                                </div>
+                                <p class="login-card-description">Iniciar Sesión</p>
+                                <form action="/login/" method="post">
+                                    {% csrf_token %}
+                                    <div class="wrap-input100 validate-input" style="padding-down: 5px;">
+                                        <input class="form-control input100" style="padding:0 30px 0 68px;" id="user" name="user" type="text" placeholder="Código estudiantil o usuario" required>
+                                        <span class="focus-input100"></span>
+                                        <span class="symbol-input100">
+                                            <i class="fas fa-id-card-alt" aria-hidden="true"></i>
+                                        </span>
+                                    </div>
+                                    <div class="wrap-input100 validate-input">
+                                        <input class="form-control input100" style="padding:0 30px 0 68px;" id="password" name="password" type="password" placeholder="Contraseña" required>
+                                        <span class="focus-input100"></span>
+                                        <span class="symbol-input100">
+                                            <i class="fas fa-lock" aria-hidden="true"></i>
+                                        </span>
+                                    </div>
+                                    <input class="btn btn-block login-btn mb-4" type="submit" value="Ingresar">
+                                </form>
+                                <a class="forgot-password-link" href="/reset_password/">¿Olvido su contraseña?</a>
+                                <p class="login-card-footer-text">¿No tienes una cuenta? <a class="link" href="/register/" >Regístrate aquí</a></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>  
+        <script src="{% static 'js/core/jquery.min.js' %} "></script>
+        <script src="{% static 'js/core/bootstrap.min.js' %}"></script> 
+        <script src="{% static 'js/utils.js' %}"></script>
+        {% if form.errors.user or form.errors.password or showModal %}
+            <script>show_modalmsg()</script>
+        {% endif %} 
+    </body>
+</html>

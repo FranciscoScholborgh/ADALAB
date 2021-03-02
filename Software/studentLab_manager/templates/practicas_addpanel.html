@@ -1,0 +1,130 @@
+<html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>Registrate en ADASLAB</title>
+        {% load static %}
+        <link rel="icon" type="image/ico" href="{% static 'images/adaslab.ico' %}" sizes="32x32">
+        <!--     Fonts and icons     -->
+        <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
+        <link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}">
+        <!-- CSS Files -->
+        <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet" />
+        <link href="{% static 'css/material-dashboard.min.css' %}" rel="stylesheet" />
+        <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    </head>
+    <body style="background-color: white;">
+        <div id="proc_modal" class="modal fade" data-backdrop="static" tabindex="-1">
+            <div class="modal-dialog modal-dialog-centered">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 id ="procmod_title" class="modal-title"> Agregar procedimiento </h5>
+                </div>
+                <div class="modal-body">
+                    <h4 class="text-left">Descripción</h4>
+                    <textarea style="width: 100%;padding-bottom: 25px;" id="proc_desc" name="proc_desc" type="text" required ></textarea>
+                    <br>
+                    <div class="wrap-input100 validate-input" style="padding-down: 5px;">
+                        <input class="form-control input100" style="padding:0 30px 0 68px;" id="proc_meas" name="proc_meas" type="text" placeholder="Medidas(separadas por coma)" required>
+                        <span class="symbol-input100">
+                            <i class="fas fa-id-card-alt" aria-hidden="true"></i>
+                        </span>
+                    </div>
+                    <div class="wrap-input100 validate-input" style="padding-down: 5px;">
+                        <input class="form-control input100" style="padding:0 30px 0 68px;" id="proc_unit" name="proc_unit" type="text" placeholder="Unidades(separadas por coma)" required>
+                        <span class="symbol-input100">
+                            <i class="fas fa-id-card-alt" aria-hidden="true"></i>
+                        </span>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn" data-dismiss="modal"><b>Cerrar</b></button>
+                    <button id="proc_btn" type="button" class="btn adaslab_btn" onclick="add_procedimiento()"><b>Agregar</b></button>                        
+                </div>
+              </div>
+            </div>
+        </div>
+        <div id="warn_modal" class="modal fade" tabindex="-1">
+            <div class="modal-dialog modal-dialog-centered" >
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title"> {{ msg.title}} </h5>
+                </div>
+                <div class="modal-body">
+                    {% if msg.content is None %}
+                        {% for error in errors %}
+                            <p>{{error}}</p>
+                        {% endfor %}
+                    {% else %}
+                        <div class="alert alert-success" role="alert">
+                            {{ msg.content }}
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn" onclick="window.location.href='/ADASLAB/'" data-dismiss="modal"><b>Regresar</b></button>
+                    <button type="button" class="btn adaslab_btn" data-dismiss="modal"><b>Cerrar</b></button>                        
+                </div>
+              </div>
+            </div>
+        </div>
+        <div class="content">
+            <div class="container-fluid" >
+                <div class="card card-profile">
+                    <div class="card-header card-header-adasfirst">
+                        <h4 class="card-title"><b>Agregar nueva práctica de laboratorio</b></h4>
+                    </div>
+                    <div class="card-body">
+                        <form action="/practicasADASLAB/" method="post">
+                            {% csrf_token %}
+                            <h4 class="text-left">Código</h4>
+                            <div class="wrap-input100 validate-input" style="padding-down: 5px;">
+                                <input class="form-control input100" style="padding:0 30px 0 68px;" id="prac_code" name="prac_code" type="number" onkeypress="validate_numinput(event)" placeholder="Código práctica" value='{{ form_values.prac_code }}' required>
+                                <span class="symbol-input100">
+                                    <i class="fas fa-id-card-alt" aria-hidden="true"></i>
+                                </span>
+                            </div>
+                            <h4 class="text-left">Nombre</h4>
+                            <div class="wrap-input100 validate-input mx-auto" style="padding-down: 5px;" >
+                                <input class="form-control input100" style="padding:0 30px 0 68px;" id="prac_name" name="prac_name" type="text" placeholder="Nombre práctica" value='{{ form_values.prac_name }}' required>
+                                <span class="symbol-input100">
+                                    <i class="fas fa-user" aria-hidden="true"></i>
+                                </span>
+                            </div>
+                            <h4 class="text-left">Area</h4>
+                            <div class="wrap-input100 validate-input mx-auto" style="padding-down: 5px;" >
+                                <input class="form-control input100" style="padding:0 30px 0 68px;" id="prac_area" name="prac_area" type="text" placeholder="Area" value='{{ form_values.prac_area }}' required>
+                                <span class="symbol-input100">
+                                    <i class="fas fa-user" aria-hidden="true"></i>
+                                </span>
+                            </div>
+                            <h4 class="text-left">Objetivos</h4>
+                            <textarea style="width: 100%;" id="prac_objs" name="prac_objs" type="text" required>{{ form_values.prac_objs }}</textarea>
+                            <h4 class="text-left" style="padding-top: 25px;">Materiales</h4>
+                            <textarea style="width: 100%;" id="pract_mats" name="pract_mats" type="text" required >{{ form_values.pract_mats }}</textarea>
+                            <div class="d-flex justify-content-between" style="padding-top: 25px;">
+                                <h4 class="text-left"><b>Procedimientos</b></h4>
+                                <button class="btn btn-secondary rounded" title="Agregar procedimiento" onclick="panelProcedimiento()"><i class="fa fa-plus-circle fa-lg" aria-hidden="true"></i></button>
+                            </div>
+                            <div id="procedimientos"></div>
+                            <div class="d-flex justify-content-between" style="padding-top: 25px;">
+                                <h4 class="text-left">Preguntas</h4>
+                                <button class="btn btn-secondary rounded" title="Agregar pregunta" onclick="alert('preg')"><i class="fa fa-plus-circle fa-lg" aria-hidden="true"></i></button>
+                            </div>
+                            <div id="preguntas"></div>
+                            <input class="btn btn-block login-btn mb-4 adaslab_btn" type="submit" value="Agregar">
+                        </form>
+                    </div>
+                </div>                
+            </div>
+        </div>
+        <script src="{% static 'js/core/jquery.min.js' %}"></script>
+        <script src="{% static 'js/core/popper.min.js' %}"></script>
+        <script src="{% static 'js/core/bootstrap-material-design.min.js' %}"></script>
+        <script src="{% static 'js/adas_admin/pracpanel.js' %}"></script>
+        {% if showModal is True%}
+            <script>$("#warn_modal").modal();</script>
+        {% endif %}
+    </body>
+</html>

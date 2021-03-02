@@ -1,0 +1,56 @@
+<!--https://freefrontend.com/bootstrap-login-forms/-->
+<html lang="es-CO">
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+        <meta content='width=device-width, initial-scale=1.0, shrink-to-fit=no' name='viewport' />
+        <title> ADASLAB </title>
+        {% load static %}
+        <link rel="icon" type="image/ico" href="{% static 'images/adaslab.ico' %}" sizes="32x32">
+        <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+        <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+        <link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}">
+    </head>
+    <body>
+        <main class="d-flex align-items-center min-vh-100 py-3 py-md-0">
+            <div class="container">
+                <div class="card login-card"> 
+                    <div class="row no-gutters">
+                        <div class="d-none d-sm-block"> 
+                            <img src="{% static 'images/adaslab.jpg' %}" class="img-fluid" width="532" height="445" alt="ADASLAB">
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card-body"> 
+                                <div class="d-block d-sm-none">
+                                    <img src="{% static 'images/adaslab.jpg' %}" class="img-fluid" width="532" height="445" alt="ADASLAB">
+                                </div>
+                                <form method="post">
+									{% csrf_token %}
+									<p class="login-card-description text-center">Restablecer contraseña</p>
+									<p class="text-justify">Su contraseña debe contener por lo menos 8 caracteres y no puede ser completamente numérica.</p>
+                                    <div class="wrap-input100 validate-input">
+                                        <input class="form-control input100" style="padding:0 30px 0 68px;" type="password" name="new_password1" id="id_new_password1" placeholder="Contraseña nueva" required>
+                                        <span class="focus-input100"></span>
+                                        <span class="symbol-input100">
+                                            <i class="fas fa-lock" aria-hidden="true"></i>
+                                        </span>
+                                    </div>
+                                    <div class="wrap-input100 validate-input">
+                                        <input class="form-control input100" style="padding:0 30px 0 68px;" type="password" name="new_password2" id="id_new_password2" placeholder="Confirmar contraseña" required>
+                                        <span class="focus-input100"></span>
+                                        <span class="symbol-input100">
+                                            <i class="fas fa-lock" aria-hidden="true"></i>
+                                        </span>
+                                    </div>
+									<input class="btn btn-block login-btn mb-4" type="submit" name="Update Password" value="Ingresar">
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>  
+        <script src="{% static 'js/core/jquery.min.js' %} "></script>
+        <script src="{% static 'js/core/bootstrap.min.js' %}"></script> 
+    </body>
+</html>

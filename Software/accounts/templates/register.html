@@ -1,0 +1,163 @@
+<!--orginal source: https://bootsnipp.com/snippets/z8699-->
+<html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>Registrate en ADASLAB</title>
+        {% load static %}
+        <link rel="icon" type="image/ico" href="{% static 'images/adaslab.ico' %}" sizes="32x32">
+        <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+        <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+        <link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}">
+    </head>
+    <body>
+        <div id="warn_modal" class="modal fade" tabindex="-1">
+            <div class="modal-dialog modal-dialog-centered">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title"> {{ msg.title}} </h5>
+                </div>
+                <div class="modal-body">
+                    {% if msg.content is None %}
+                        <p>{{ form.errors.code }}</p>
+                        <p>{{ form.errors.name }}</p>
+                        <p>{{ form.errors.email }}</p>
+                        <p>{{ form.errors.semester }}</p>
+                        <p>{{ form.errors.course }}</p>
+                        <p>{{ form.errors.confirm_password }}</p>
+                    {% elif msg.content is False %}
+                        <div class="alert alert-danger" role="alert">
+                            Algo salio mal al realizar la validación, por favor verifica que tenga conexión a internet e intenta de nuevo realizar el registro. En caso de que el problema se mantenga y no pueda registrarse, escríbenos a adaslaboratory@gmail.com y lo solucionaremos lo más pronto posible
+                        </div>
+                    {% else %}
+                        <div class="alert alert-success" role="alert">
+                            {{ msg.content }}
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="modal-footer">
+                    {% if msg.content is None or msg.content is False %}
+                        <button type="button" class="btn adaslab_btn" data-dismiss="modal"><b>Cerrar</b></button>                        
+                    {% else %}
+                        <button onclick="window.location.href='/login/';" type="button" class="btn adaslab_btn"><b>Cerrar</b></button>
+                    {% endif %}    
+                </div>
+              </div>
+            </div>
+        </div>
+        <div id="sending" class="modal fade" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-hidden="true" style="padding-top:15%; overflow-y:visible;"> 
+            <div class="modal-dialog modal-m"> 
+                <div class="modal-content"> 
+                    <div class="modal-header">
+                        <h3 style="margin:0;">Validando información</h3>
+                    </div> 
+                    <div class="modal-body"> 
+                        <div class="progress progress-striped active" style="margin-bottom:0;">
+                            <div class="progress-bar progress-bar-striped progress-bar-animated" style="width: 100%">
+                            </div>
+                        </div> 
+                    </div> 
+                </div>
+            </div>
+        </div>
+        <main class="d-flex align-items-center min-vh-100 py-3 py-md-0">
+            <div class="container">
+                <div class="card login-card">
+                    <form class="mx-auto" style="width:90%" method="post">
+                        {% csrf_token %}
+                        <br><br>
+                        <h4 class="card-title text-center">Crea tu cuenta</h4>
+                        <p class="text-center">Realiza tus prácticas de laboratorio con ADASLAB</p>
+                        <div>	
+                            <div class="wrap-input100 validate-input" style="padding-down: 5px;" >
+                                <input class="form-control input100" style="padding:0 30px 0 68px;" id="code" name="code" type="number" onkeypress="validate_numinput(event)" placeholder="Código estudiantil" value='{{ form_values.code }}' required>
+                                <span class="focus-input100"></span>
+                                <span class="symbol-input100">
+                                    <i class="fas fa-id-card-alt" aria-hidden="true"></i>
+                                </span>
+                            </div>
+                        <div class="wrap-input100 validate-input mx-auto" style="padding-down: 5px;" >
+                            <input class="form-control input100" style="padding:0 30px 0 68px;" id="name" name="name" type="text" placeholder="Nombre completo" value='{{ form_values.name }}' required>
+                            <span class="focus-input100"></span>
+                            <span class="symbol-input100">
+                                <i class="fas fa-user" aria-hidden="true"></i>
+                            </span>
+                        </div>
+                        <div class="wrap-input100 validate-input" style="padding-down: 5px;" >
+                            <input class="form-control input100" style="padding:0 30px 0 68px;" id="email" name="email" type="email" placeholder="Correo institucional" value="{{ form_values.email }}" required>
+                            <span class="focus-input100"></span>
+                            <span class="symbol-input100">
+                                <i class="fas fa-envelope" aria-hidden="true"></i>
+                            </span>
+                        </div>
+                        <div class="wrap-input100 validate-input" style="padding-down: 5px;" >
+                            <select class="form-control input100" style="padding:0 30px 0 68px;" id="semester" name="semester" style="max-width: 120px;" required>
+                                {% if form_values.semester is not None %}
+                                    <option value="{{ form_values.semester }}" selected hidden>{{form_values.semester}} Semestre</option>
+                                {% else %}
+                                    <option value="" disabled selected hidden>Semestre</option>
+                                {% endif %}
+                                <option value="1">1 Semestre</option>
+                                <option value="2">2 Semestre</option>
+                                <option value="3">3 Semestre</option>
+                                <option value="4">4 Semestre</option>
+                                <option value="5">5 Semestre</option>
+                                <option value="6">6 Semestre</option>
+                                <option value="7">7 Semestre</option>
+                                <option value="8">8 Semestre</option>
+                                <option value="9">9 Semestre</option>
+                                <option value="10">10 Semestre</option>
+                            </select>
+                            <span class="focus-input100"></span>
+                            <span class="symbol-input100">
+                                <i class="fas fa-university" aria-hidden="true"></i>
+                            </span>
+                        </div>
+                        <div class="wrap-input100 validate-input" style="padding-down: 5px;" >
+                            <select class="form-control input100" style="padding:0 30px 0 68px;" id="course" name="course" required>
+                                {% if form_values.course is not None %}
+                                    <option value="{{ form_values.course.codigo }}" selected hidden>{{form_values.course.nombre}}</option>
+                                {% else %}
+                                    <option value="" disabled selected hidden>Curso</option>
+                                {% endif %}
+                                {% for curso in cursos %}
+                                    <option value="{{curso.id}}">
+                                        {{curso.name}}
+                                    </option>
+                                {% endfor %} 
+                            </select>
+                            <span class="focus-input100"></span>
+                            <span class="symbol-input100">
+                                <i class="fas fa-chalkboard-teacher" aria-hidden="true"></i>
+                            </span>
+                        </div>
+                        <div class="wrap-input100 validate-input">
+                            <input class="form-control input100" style="padding:0 30px 0 68px;" id="password" name="password"  type="password" placeholder="Contraseña" required>
+                            <span class="focus-input100"></span>
+                            <span class="symbol-input100">
+                                <i class="fas fa-lock" aria-hidden="true"></i>
+                            </span>
+                        </div>
+                        <div class="wrap-input100 validate-input">
+                            <input class="form-control input100" style="padding:0 30px 0 68px;" id="confirm_password" name="confirm_password" type="password" placeholder="Confirmar Contraseña" required>
+                            <span class="focus-input100"></span>
+                            <span class="symbol-input100">
+                                <i class="fas fa-lock" aria-hidden="true"></i>
+                            </span>
+                        </div>
+                        <input onclick="loading_bar()" class="btn btn-block login-btn mb-4" type="submit" value="Registrar">
+                        <p class="login-card-footer-text text-center">¿Ya tiene una cuenta? <a class="link" href="/login/" >Ingrese aquí</a></p>	
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </main>
+        <script src="{% static 'js/core/jquery.min.js' %} "></script>
+        <script src="{% static 'js/core/bootstrap.min.js' %}"></script>
+        <script src="{% static 'js/utils.js' %}"></script>
+        {% if showModal %}
+            <script>show_modalmsg()</script>
+        {% endif %}
+    </body>
+</html>
